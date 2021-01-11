@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>MDN Practises</title>
+   <script src="mdn.js"></script>
+   <style>
+       *{
+          font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+       }
+
+       body{
+            color: white;
+            background: navy;
+            font-weight: bolder;
+       }
+   
+      
+   </style>
+ 
+</head>
+<body>
+      <!-- <p>Player 1: Chris</p>
+      <button>create Paragraph</button> -->
+     
+   <h1>Number Guessing Game</h1> <h1 class="trialsCount">Trials left: </h1>
+   <p>Input a number between 1 and 100 and then click the check button to know if you have 
+      guessed the number correctly. You have just 10 turns/trials. Good luck chap!
+   </p>
+
+      <div class="resultParas">
+            <p class="guesses"></p>
+            <p class="lastResult"></p>
+            <p class="highOrLow"></p>
+            <p class="randomNumber"></p>
+      </div>
+
+      <form action="#">
+               <label for="enterGuesses">Enter your Guess:</label> 
+               <input type="number" class="inputGuess" autofocus style="outline:none"> 
+               <button class="checkGuess">Check</button>
+      </form>
+
+      <script>
+             const guessInput = document.querySelector(".inputGuess");
+               const checkGuess = document.querySelector(".checkGuess");
+               let lastResult = document.querySelector(".lastResult");
+               let highOrLow = document.querySelector(".highOrLow");
+               let guessList = document.querySelector(".guesses");
+               let showRandomNumber = document.querySelector(".randomNumber");
+               let guessCount = 0;
+               let trialsLeft = 10;
+               let resetButton;
+               let trialsCounter = document.querySelector(".trialsCount");
+
+               // function to check for guess match
+               function guessChecker() {
+                  let randomNumber = Math.floor(Math.random() * 100) + 1
+                  let userGuesses = Number(guessInput.value);
+
+                  // update number of trials used and trials remaining
+
+
+
+                  let trials = trialsCounter.innerHTML = `Trials Used: ${guessCount} / Trials Left: ${trialsLeft} `
+
+                  //update guess list with user guess inputs
+
+                  if (guessCount === 0) {
+                     guessList.innerText = "Previous Guesses :  ";
+                  }
+
+                  // append each user guess
+                  guessList.innerText += userGuesses + " -";
+
+
+                  if (userGuesses == randomNumber) {
+                     lastResult.innerText = "Congratulations!! You got it right!"
+                     lastResult.style.backgroundColor = "green";
+                     highOrLow.innerText = " ";
+                     showRandomNumber.innerText = `Random Number is ${randomNumber}`;
+                     setGameOver();
+
+                  } else if (guessCount === 10) {
+
+                     lastResultinnerText = "!!! GAME OVER!!! REACHED MAXIMUM TRIALS!";
+
+                     setGameOver()
+                  }
+
+                  else {
+                     lastResult.innerText = "Wrong!";
+                     lastResult.style.backgroundColor = "red";
+
+                  }
+
+                  if (userGuesses < randomNumber) {
+                     highOrLow.innerText = "Last guess was too low!";
+                     showRandomNumber.innerText = `Random Number is ${randomNumber}`;
+                  } else if (userGuesses > randomNumber) {
+                     highOrLow.innerText = "Last guess was too high!";
+                     showRandomNumber.innerText = `Random Number is ${randomNumber}`
+                  }
+                  guessInput.value = "";
+                  guessInput.focus();
+                  guessCount++
+                  trialsLeft--
+
+
+               }
+
+               function setGameOver() {
+                  guessInput.disabled = "true";
+                  checkGuess.disabled = "true";
+                  resetButton = document.createElement("button");
+                  resetButton.innerText = "Start new game";
+                  document.body.append(resetButton);
+                  resetButton.addEventListener('click', resetGame)
+               }
+
+               function resetGame() {
+                  guessCount = 0;
+                  trialsLeft = 10;
+
+                  const resetParas = document.querySelectorAll(".resultParas p");
+                  for (i = 0; i < resetParas.length; i++) {
+                     resetParas[i].innerText = "";
+                  }
+
+                  resetButton.parentNode.removeChild(resetButton);
+                  guessInput.disabled = false;
+                  checkGuess.disabled = false;
+                  guessInput.value = '';
+                  guessInput.focus();
+
+
+                  lastResult.style.backgroundColor = "white";
+                  // randomNumber = Math.floor(Math.random() * 100) + 1;
+
+
+
+               }
+
+               checkGuess.addEventListener("click", guessChecker);
+
+      </script>
+</body>
+</html>
